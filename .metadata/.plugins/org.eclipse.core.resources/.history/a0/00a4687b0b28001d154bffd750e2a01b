@@ -1,0 +1,41 @@
+package controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import service.ProductService;
+import service.ProductServiceImpl;
+
+@WebServlet("/ProductController")
+public class ProductController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private ProductService svc;	// service에 interface 구현
+       
+    public ProductController() {
+    	svc = new ProductServiceImpl();	// service에 클래스 구현
+    }
+
+	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		// 서비스처리
+		String destPage = "";
+		RequestDispatcher rdp = req.getRequestDispatcher(destPage);
+		rdp.forward(req, res);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// get ex) pno=?${pno}
+		service(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// post ex) method = "post" => 보안상 더 우수
+		service(request, response);
+	}
+
+}

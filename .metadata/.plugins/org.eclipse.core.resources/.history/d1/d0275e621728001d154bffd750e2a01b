@@ -1,0 +1,14 @@
+package repository;
+
+import domain.ProductVO;
+
+public class ProductDAOImpl implements ProductDAO {
+
+	@Override
+	public int productInsert(ProductVO pvo) {
+		// 직접 sql 쿼리 구문 작성 -> prepareStatement : mapper와 연결하지 않고 바로 작성
+		
+		return 0;
+	}
+
+}

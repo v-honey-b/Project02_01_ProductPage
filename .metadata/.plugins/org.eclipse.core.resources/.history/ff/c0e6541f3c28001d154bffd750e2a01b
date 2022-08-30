@@ -1,0 +1,86 @@
+package controller;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import domain.ProductVO;
+import service.ProductService;
+import service.ProductServiceImpl;
+
+@WebServlet("/ProductController")
+public class ProductController extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private ProductService svc;	// service에 interface 구현
+       
+    public ProductController() {
+    	svc = new ProductServiceImpl();	// service에 클래스 구현
+    }
+
+	protected void service(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+		// request/response encoding 설정
+		req.setCharacterEncoding("utf-8");
+		res.setCharacterEncoding("utf-8");
+		res.setContentType("text/html; charset=UTF-8");
+		
+		// 요청 경로
+		String uri = req.getRequestURI();
+		System.out.println(">>> uri : " + uri);
+		
+		// 현재 실행하고 있는 프로젝트 명
+		String context = req.getContextPath();
+		System.out.println(">>> context : " + context);
+		
+		// 실제 서비스 요청 경로
+		String path = uri.substring(uri.lastIndexOf("/") + 1);
+		System.out.println(">>> path : " + path);
+		
+		// 서비스 처리
+		String destPage = "";
+		if (path.equals("productregister.pd")) {	// String -> equals
+			destPage = "/product/productregister.jsp";
+		}
+		else if (path.equals("productinsert.pd")) {
+			ProductVO pvo = new ProductVO(req.getParameter("pname"), Integer.parseInt(req.getParameter("price")), req.getParameter("made_by"));
+			int isUp = svc.productRegister(pvo);
+			destPage = "/index.jsp";
+		}
+		else if (path.equals("productlist.pd")) {
+			req.setAttribute("productlist", svc.getProductList());
+			destPage = "/product/productlist.jsp";
+		}
+		else if (path.equals("productdetail.pd")) {
+			// pno에 해당하는 detail 값 표현
+			req.setAttribute("pvo", svc.getProductDetail(Integer.parseInt(req.getParameter("pno"))));
+			destPage = "/product/productdetail.jsp";
+		}
+		else if (path.equals("productmodify.pd")) {
+			req.setAttribute("pvo", svc.getProductDetail(Integer.parseInt(req.getParameter("pno"))));
+			destPage = "/product/productmodify.jsp";
+		}
+		else if (path.equals("productupdate.pd")) {
+			ProductVO pvo = new ProductVO(Integer.parseInt(req.getParameter("pno")), req.getParameter("pname"), Integer.parseInt(req.getParameter("price")), req.getParameter("made_by"));
+			int isUp = svc.productModify(pvo);
+			destPage = "/product/productdetail.jsp";
+		}
+		
+		RequestDispatcher rdp = req.getRequestDispatcher(destPage);
+		rdp.forward(req, res);
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// get ex) pno=?${pno}
+		service(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// post ex) method = "post" => 보안상 더 우수
+		service(request, response);
+	}
+
+}

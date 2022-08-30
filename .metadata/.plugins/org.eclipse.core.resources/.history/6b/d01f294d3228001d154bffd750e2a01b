@@ -1,0 +1,15 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PRODUCT MODIFY</title>
+</head>
+<%
+	ProductVO pvo = (ProductVO)request.getAttribute("pvo");
+%>
+<body>
+	<h1>PRODUCT MODIFY PAGE</h1>
+</body>
+</html>

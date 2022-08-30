@@ -1,0 +1,13 @@
+package service;
+
+import domain.ProductVO;
+
+public class ProductServiceImpl implements ProductService {
+
+	@Override
+	public int productRegister(ProductVO pvo) {
+		
+		return 0;
+	}
+
+}

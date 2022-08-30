@@ -1,0 +1,38 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@page import="domain.ProductVO"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>PRODUCT DETAIL</title>
+</head>
+<%
+	ProductVO pvo = (ProductVO)request.getAttribute("pvo");
+%>
+<body>
+	<h1>PRODUCT DETAIL PAGE</h1>
+	<table border="1">
+		<tr>
+			<th>NO.</th>
+			<td><%=pvo.getPno() %></td>
+		</tr>
+		<tr>
+			<th>NAME</th>
+			<td><%=pvo.getPname() %></td>
+		</tr>
+		<tr>
+			<th>PRICE</th>
+			<td><%=pvo.getPrice() %></td>
+		</tr>
+		<tr>
+			<th>REG_DATE</th>
+			<td><%=pvo.getReg_date() %></td>
+		</tr>
+		<tr>
+			<th>MADE_BY</th>
+			<td><%=pvo.getMade_by() %></td>
+		</tr>
+	</table>
+</body>
+</html>
